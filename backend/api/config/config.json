@@ -1,0 +1,10 @@
+{
+    "development": {
+      "username": "root",
+      "password": "RohrKabel06",
+      "database": "senaycasino",
+      "host": "m306-mysql",
+      "dialect": "mysql"
+    }
+  }
+  
