@@ -11,10 +11,11 @@ const Game = sequelize.define(
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
     },
     minPlayers: {
       type: DataTypes.INTEGER,
+      defaultValue: 1,
       allowNull: false,
     },
     maxPlayers: {
@@ -32,6 +33,11 @@ const Game = sequelize.define(
     enabled: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
+      allowNull: false
+    },
+    path: {
+      type: DataTypes.TEXT,
+      allowNull: false
     },
     createdAt: {
       type: DataTypes.DATE,

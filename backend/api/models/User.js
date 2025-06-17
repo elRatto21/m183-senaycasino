@@ -10,13 +10,19 @@ const User = sequelize.define(
       allowNull: false,
       unique: true,
     },
-    password: {
+    password_hash: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     balance: {
       type: DataTypes.DOUBLE,
       defaultValue: 2000.0,
+      allowNull: false
+    },
+    role: {
+      type: DataTypes.ENUM('user', 'admin'),
+      defaultValue: 'user',
+      allowNull: false
     },
     createdAt: {
       type: DataTypes.DATE,
