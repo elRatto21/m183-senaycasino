@@ -8,25 +8,81 @@ import {
   Link,
 } from "@nextui-org/react";
 import { useState } from "react";
-import AuthService from "../../../service/authService";
+import axios from "axios";
 
 const Register = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
 
-    const handleRegister = () => {
-      AuthService.register(username, password);
+  const handleRegister = async () => {
+    setErrors([]);
+
+    if (!username.match("^[a-zA-Z0-9]{2,15}$")) {
+      console.log("ye")
+      setErrors(["Username has to be between 2 and 15 characters and can only include regular letters and numbers."])
+
+      return;
     }
+
+    try {
+      const response = await axios.post(
+        process.env.REACT_APP_API_URL + "auth/register",
+        {
+          username,
+          password,
+        },
+        {
+          withCredentials: true
+        }
+      );
+
+      console.log(response);
+
+      window.location.href = "/login";
+    } catch (error) {
+      if (error.response.status === 400) {
+        if (error.response.data.errors) {
+          const errors = error.response.data.errors.map(
+            (error) => (error = error.msg)
+          );
+
+          setErrors(errors);
+        } else if (error.response.data.error) {
+          setErrors([error.response.data.error]);
+        }
+      }
+
+      console.log("error", error);
+    }
+  };
   return (
     <div className="flex justify-center pt-24">
-      <Card className="w-[325px] h-[400px]">
+      <Card className="w-[325px] h-fit">
         <CardHeader className="flex justify-center pt-6">
           <div className="font-bold cursor-default text-4xl">SenayCasino</div>
         </CardHeader>
         <CardBody className="flex gap-4">
           <div className="cursor-default text-2xl text-center">Register</div>
-          <Input type="text" label="Username" value={username} onValueChange={setUsername} />
-          <Input type="password" label="Password" value={password} onValueChange={setPassword} />
+          <Input
+            type="text"
+            label="Username"
+            value={username}
+            onValueChange={setUsername}
+          />
+          <Input
+            type="password"
+            label="Password"
+            value={password}
+            onValueChange={setPassword}
+          />
+          {errors.length > 0 && (
+            <div className="text-red-500">
+              {errors.map((error, index) => (
+                <div key={index}>{error}</div>
+              ))}
+            </div>
+          )}
           <div className="flex justify-between">
             <Link href="/login" className="cursor-pointer">
               Login

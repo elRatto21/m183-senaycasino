@@ -69,9 +69,11 @@ const login = async (username, password) => {
     throw new Error("Invalid username or password");
   }
 
+  console.log(user)
+
   const isValidPassword = await bcrypt.compare(
     password + process.env.PEPPER,
-    user.password
+    user.password_hash
   );
 
   if (!isValidPassword) {

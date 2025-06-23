@@ -5,8 +5,9 @@ USE senaycasino;
 CREATE TABLE IF NOT EXISTS Users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
     balance DECIMAL(10, 2) DEFAULT 2000.0,
+    role ENUM("admin", "user") DEFAULT "user",
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -37,9 +38,9 @@ CREATE TABLE IF NOT EXISTS GameSessions (
 );
 
 -- Insert initial data
-INSERT INTO Users (username, password, balance, createdAt, updatedAt) VALUES
-('user1', '12345', 2500.0, NOW(), NOW()),
-('user2', 'password', 1800.0, NOW(), NOW());
+INSERT INTO Users (username, password_hash, role, balance, createdAt, updatedAt) VALUES
+('user1', '$2b$15$EQi.JDSdL82gdsb9M2Lcr.Q/7SjZf7eR4h2OpvQjw4eAdAtkMs1Tu', "user", 2500.0, NOW(), NOW()),
+('admin1', '$2b$15$EQi.JDSdL82gdsb9M2Lcr.Q/7SjZf7eR4h2OpvQjw4eAdAtkMs1Tu', "admin", 1800.0, NOW(), NOW());
 
 INSERT INTO Games (name, description, minPlayers, maxPlayers, minBet, maxBet, enabled, createdAt, updatedAt) VALUES
 ('Coinflip', 'A simple 50/50 chance game where players bet on heads or tails.', 1, 16, 1.0, 100000.0, true, NOW(), NOW()),

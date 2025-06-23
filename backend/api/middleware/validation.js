@@ -27,14 +27,14 @@ const authValidation = {
       .notEmpty()
       .isLength({ min: 2, max: 15 })
       .withMessage("Username has to be between 2 and 15 characters.")
-      .matches("/^[a-zA-Z0-9]+$/")
+      .matches(/^[a-zA-Z0-9]+$/)
       .withMessage("Username can only include a-z, A-Z and 0-9.")
       .customSanitizer(sanitizeInput),
     body("password")
       .notEmpty()
       .isLength({ min: 8 })
       .withMessage("Password has to be at least 8 characters.")
-      .matches("/^(?=.d)(?=.[a-z])(?=.[A-Z])(?=.[?!.$%&])[A-Za-zd?!.$%&]{8,}$/")
+      .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[?!.$%&])[A-Za-z\d?!.$%&]{8,}$/)
       .withMessage(
         "Password has to contain one special character, one number, one uppercase and one lowercase letter."
       ),
@@ -57,7 +57,7 @@ const gameValidation = [
     .notEmpty()
     .isLength({ min: 3, max: 20 })
     .withMessage("Name has to be between 3 and 20 characters.")
-    .matches("/^[a-zA-Z0-9]+$/")
+    .matches(/^[a-zA-Z0-9]+$/)
     .withMessage("Only regular letters and digits are allowed.")
     .customSanitizer(sanitizeInput),
   body("description")

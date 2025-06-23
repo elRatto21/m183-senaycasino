@@ -1,3 +1,4 @@
+const Game = require("../models/Game");
 const { getGames } = require("../services/gameService");
 
 const getAllGames = async (req, res) => {
@@ -9,4 +10,12 @@ const getAllGames = async (req, res) => {
   }
 };
 
-module.exports = { getAllGames };
+const createGame = async (req, res) => {
+  const game = req.body;
+
+  await Game.create(game);
+
+  res.status(201);
+}
+
+module.exports = { getAllGames, createGame };

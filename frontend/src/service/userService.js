@@ -4,10 +4,22 @@ const API_URL = "http://localhost:4000/api/";
 
 const getBalance = () => {
   return axios
-    .get(API_URL + "user/balance?username=" + localStorage.getItem("username"))
+    .get(
+      API_URL + "user/balance?username=" + localStorage.getItem("username"),
+      { withCredentials: true }
+    )
     .then((response) => {
       let data = response.data;
       return data.balance;
+    });
+};
+
+const getUser = () => {
+  return axios
+    .get(API_URL + "user", { withCredentials: true })
+    .then((response) => {
+      const data = response.data;
+      return data;
     });
 };
 
@@ -42,6 +54,7 @@ const UserService = {
   getBalance,
   coinflip,
   updateBalance,
+  getUser
 };
 
 export default UserService;

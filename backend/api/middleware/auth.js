@@ -4,8 +4,10 @@ const User = require("../models/User");
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const authenticateToken = async (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  
+  const tokens = req.cookies;
+
+  const token = tokens.accessToken;
 
   if (!token) {
     return res.status(401).json({ error: "Access token required" });
@@ -13,6 +15,7 @@ const authenticateToken = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
+
     const user = await User.findByPk(decoded.userId);
 
     if (!user) {
